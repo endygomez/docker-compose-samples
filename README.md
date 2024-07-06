@@ -35,3 +35,14 @@ Next, you can search for the previously saved key in the app.
 - docker-nginx-conf
   - Exposes the PHP component
   - Access at http://localhost:8081
+
+### Example to generate SSL certificate
+
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt -subj "/CN=localhost"
+
+mkdir ./ssl
+
+mv localhost.crt ./ssl/
+mv localhost.crt ./ssl/
+```
