@@ -1,4 +1,4 @@
-# Test App
+# Docker compose samples
 
 ## Architecture Diagram
 
@@ -35,4 +35,3 @@ Next, you can search for the previously saved key in the app.
 - docker-nginx-conf
   - Exposes the PHP component
   - Access at http://localhost:8081
-# docker-compose-samples
