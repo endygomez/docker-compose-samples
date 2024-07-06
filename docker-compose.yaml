@@ -19,7 +19,7 @@ services:
     depends_on:
       - dotnet
     env_file:
-      - ./docker-php-sample/.env
+      - ./docker-php-sample/.env.example
     networks:
       - app-network
   dotnet:
@@ -31,7 +31,7 @@ services:
     networks:
       - app-network
     env_file:
-      - ./docker-dotnet-sample/.env
+      - ./docker-dotnet-sample/.env.example
   redis:
     image: redis:7.4-rc2-alpine
     container_name: redis
