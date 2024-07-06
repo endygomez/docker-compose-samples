@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  mysql-primary:
+    image: mysql:8.0
+    container_name: mysql-primary
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysql-primary-data:/var/lib/mysql
+      - ./primary/my.cnf:/etc/mysql/my.cnf
+      - ssl-certs:/etc/mysql/ssl
+      - ./primary/init-replication.sql:/docker-entrypoint-initdb.d/init-replication.sql
+      - ./primary/init-database.sql:/docker-entrypoint-initdb.d/init-database.sql
+      - ./primary/init-appuser.sql:/docker-entrypoint-initdb.d/init-appuser.sql
+    networks:
+      - mysql-network
+
+  mysql-secondary:
+    image: mysql:8.0
+    container_name: mysql-secondary
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-secondary-data:/var/lib/mysql
+      - ssl-certs:/etc/mysql/ssl
+      - ./secondary/init-start-slave.sql:/docker-entrypoint-initdb.d/init-start-slave.sql
+      - ./secondary/my.cnf:/etc/mysql/my.cnf
+      - ./secondary/init-readonlyuser.sql:/docker-entrypoint-initdb.d/init-readonlyuser.sql
+    networks:
+      - mysql-network
+
+networks:
+  mysql-network:
+    driver: bridge
+
+volumes:
+  mysql-primary-data:
+  mysql-secondary-data:
+  ssl-certs:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./ssl
+      o: bind
