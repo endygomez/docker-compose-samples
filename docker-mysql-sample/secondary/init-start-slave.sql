@@ -1,10 +1,10 @@
--- Detenemos el proceso de replicación si está en ejecución
+-- Stop the replication process if it is running
 STOP SLAVE;
 
--- Restablecemos la configuración de replicación
+-- Reset the replication position to the beginning
 RESET SLAVE;
 
--- Configuramos la replicación con el servidor primario
+-- Configure the replication with the primary server data
 CHANGE MASTER TO
   MASTER_HOST='mysql-primary',
   MASTER_USER='replica_user',
@@ -16,9 +16,9 @@ CHANGE MASTER TO
   MASTER_SSL_CERT='/etc/mysql/ssl/server-cert.pem',
   MASTER_SSL_KEY='/etc/mysql/ssl/server-key.pem';
 
--- Iniciamos el proceso de replicación
+-- Start the replication process
 START SLAVE;
 
--- Verificamos el estado de la replicación
+-- Check if the replication is running
 SHOW SLAVE STATUS\G;
 
